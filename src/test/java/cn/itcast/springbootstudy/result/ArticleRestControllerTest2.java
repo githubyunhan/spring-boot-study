@@ -38,7 +38,7 @@ public class ArticleRestControllerTest2 {
                 "    \"author\":\"zimug\",\n" +
                 "    \"title\":\"手摸手教你开发springboot\",\n" +
                 "    \"content\":\"zimug 爱学习\",\n" +
-                "    \"createTime\":\"\",\n" +
+                "    \"createTime\":\"2021-10-21 09:10:10\",\n" +
                 "    \"reader\":[{\"name\":\"zimug\",\"age\":18},{\"name\":\"kobe\",\"age\":37}]\n" +
                 "}";
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.request(HttpMethod.POST, "/rest/article")

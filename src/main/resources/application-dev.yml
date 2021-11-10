@@ -1,0 +1,11 @@
+server:
+  port: 8888
+#port ${random.int[1024,65536]}
+#spring:
+#  jackson:
+#    date-format: yyyy-MM-dd HH:mm:ss
+#    time-zone: GMT+8
+#需要使用的配置文件
+spring:
+  profiles:
+    active: dev
