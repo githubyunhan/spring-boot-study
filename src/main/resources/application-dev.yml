@@ -23,3 +23,7 @@ spring:
 logging:
   level:
     cn.itcast.bootstart: debug
+#  设置自动转换驼峰命名
+mybatis:
+  configuration:
+    mapUnderscoreToCamelCase: true
