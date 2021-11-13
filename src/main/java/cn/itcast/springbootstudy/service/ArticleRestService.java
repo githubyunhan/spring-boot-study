@@ -1,14 +1,18 @@
 package cn.itcast.springbootstudy.service;
 
-import cn.itcast.springbootstudy.model.Article;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
+import cn.itcast.springbootstudy.model.ArticleVO;
 
-@Slf4j
-@Service
-public class ArticleRestService {
-    public String saveArticle(Article article){
-        log.info("saveArticle:{}",article);
-        return "测试";
-    }
+import java.util.List;
+
+public interface ArticleRestService {
+
+    ArticleVO saveArticle(ArticleVO article);
+
+    void deleteArticle(Long id);
+
+    void updateArticle(ArticleVO article);
+
+    ArticleVO getArticle(Long id);
+
+    List<ArticleVO> getAll();
 }

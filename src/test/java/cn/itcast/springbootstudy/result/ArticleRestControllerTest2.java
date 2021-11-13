@@ -1,6 +1,6 @@
 package cn.itcast.springbootstudy.result;
 
-import cn.itcast.springbootstudy.service.ArticleRestService;
+import cn.itcast.springbootstudy.service.ArticleMybatisRestServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,7 +28,7 @@ public class ArticleRestControllerTest2 {
     private MockMvc mockMvc;
 
     @Resource
-    ArticleRestService articleRestService;
+    ArticleMybatisRestServiceImpl articleRestService;
 
     @Test
     public void saveArticle() throws Exception {

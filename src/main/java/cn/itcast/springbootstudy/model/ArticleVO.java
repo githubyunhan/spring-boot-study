@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 //@JsonPropertyOrder(value = {"content","title"})
-public class Article {
+public class ArticleVO {
 
     /**
      * id : 1
@@ -25,7 +25,7 @@ public class Article {
      * createTime :
      * reader : [{"name":"zimug","age":18},{"name":"kobe","age":37}]
      */
-    @JsonIgnore
+    //@JsonIgnore
     private Long id;
 
     //@JsonProperty("auther")
