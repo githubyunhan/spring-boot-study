@@ -74,6 +74,18 @@
             <artifactId>pagehelper-spring-boot-starter</artifactId>
             <version>1.2.10</version>
         </dependency>
+
+        <dependency><!--jquery是javascript库-->
+            <groupId>org.webjars</groupId>
+            <artifactId>jquery</artifactId>
+            <version>1.12.4</version>
+        </dependency>
+
+        <dependency><!--webjars-locator：自动检测版本webjars下依赖包-->
+            <groupId>org.webjars</groupId>
+            <artifactId>webjars-locator</artifactId>
+            <version>0.30</version>
+        </dependency>
     </dependencies>
 
     <build>
