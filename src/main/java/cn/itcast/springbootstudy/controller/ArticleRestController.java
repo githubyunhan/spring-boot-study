@@ -1,7 +1,7 @@
 package cn.itcast.springbootstudy.controller;
 
 
-import cn.itcast.springbootstudy.model.AjaxResponse;
+import cn.itcast.springbootstudy.config.exception.AjaxResponse;
 import cn.itcast.springbootstudy.model.ArticleVO;
 import cn.itcast.springbootstudy.service.ArticleRestService;
 import io.swagger.annotations.ApiOperation;
@@ -52,7 +52,7 @@ public class ArticleRestController {
     public @ResponseBody AjaxResponse updateArticle(@PathVariable Long id, @RequestBody ArticleVO article){
         article.setId(id);
         articleRestService.updateArticle(article);
-        return AjaxResponse.success(id);
+        return AjaxResponse.success();
     }
 
     //@RequestMapping(value = "/article/{id}",method = GET,produces = "application/json")
