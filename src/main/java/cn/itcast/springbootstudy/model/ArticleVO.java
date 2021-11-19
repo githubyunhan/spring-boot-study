@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotEmpty;
 import java.util.Date;
 import java.util.List;
 
@@ -31,6 +32,8 @@ public class ArticleVO {
     //@JsonProperty("auther")
     private String author;
     private String title;
+
+    @NotEmpty(message = "文章内容不能为空")/*校验注解中的message属性会在校验失败抛出异常时赋值给默认defaulMessage属性*/
     private String content;
 
     // @JsonInclude(JsonInclude.Include.NON_NULL)

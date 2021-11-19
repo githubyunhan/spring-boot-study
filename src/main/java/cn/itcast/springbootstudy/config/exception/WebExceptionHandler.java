@@ -1,13 +1,30 @@
 package cn.itcast.springbootstudy.config.exception;
 
+import org.springframework.validation.BindException;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @ControllerAdvice/*表明当前的类是一个全局的异常处理类*/
 public class WebExceptionHandler {
+    /*数据校验失败，会抛出MethodArgumentNotValidException和BindException异常，因此需要做全局处理*/
+    @ExceptionHandler(MethodArgumentNotValidException.class)/*参数校验错误异常处理器*/
+    @ResponseBody
+    public AjaxResponse customerException(MethodArgumentNotValidException e){
+        FieldError fieldError = e.getBindingResult().getFieldError();
+        return AjaxResponse.error(new CustomException(CustomExceptionType.USER_INPUT_ERROR,fieldError.getDefaultMessage()));
+    }
 
-    @ExceptionHandler(CustomException.class)/*异常处理器*/
+    @ExceptionHandler(BindException.class)/*绑定异常（约束异常）异常处理器*/
+    @ResponseBody
+    public AjaxResponse customerException(BindException e){
+        FieldError fieldError = e.getBindingResult().getFieldError();
+        return AjaxResponse.error(new CustomException(CustomExceptionType.USER_INPUT_ERROR,fieldError.getDefaultMessage()));
+    }
+
+    @ExceptionHandler(CustomException.class)/*自定义异常处理器*/
     @ResponseBody
     public AjaxResponse customerException(CustomException e){
         if (e.getCode()==CustomExceptionType.SYSTEM_ERROR.getCode()){
