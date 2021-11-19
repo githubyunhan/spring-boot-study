@@ -6,9 +6,26 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
 
 @ControllerAdvice/*表明当前的类是一个全局的异常处理类*/
 public class WebExceptionHandler {
+
+    @ExceptionHandler(ModelViewException.class)
+    public ModelAndView viewExceptionHandler(HttpServletRequest req,ModelViewException e){
+        ModelAndView modelAndView = new ModelAndView();
+
+        //将异常信息设置
+        modelAndView.addObject("exception",e);
+        modelAndView.addObject("url",req.getRequestURL());
+        modelAndView.setViewName("error");/*跳转到error.html页面*/
+
+        //返回ModelAndView
+        return modelAndView;
+    }
+
     /*数据校验失败，会抛出MethodArgumentNotValidException和BindException异常，因此需要做全局处理*/
     @ExceptionHandler(MethodArgumentNotValidException.class)/*参数校验错误异常处理器*/
     @ResponseBody
