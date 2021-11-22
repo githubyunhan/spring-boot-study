@@ -29,7 +29,7 @@ public class ArticleMybatisRestServiceImpl implements ArticleRestService{
         Article articlePO = dozerMapper.map(article,Article.class);
         articleMapper.insert(articlePO);
 
-        int i=5/0;
+        //int i=5/0;
         return null;
     }
 

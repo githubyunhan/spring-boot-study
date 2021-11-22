@@ -23,9 +23,11 @@ spring:
     template-loader-path: classpath:/templates/
 #.xml文件路径在resources包下时设置该配置mybatis:
 #  mapper-locations: classpath:generator/*.xml
+
+
+#使用log4j2时一个环境配置文件对应一个.xml文件
 logging:
-  level:
-    cn.itcast.bootstart: debug
+  config: classpath:log4j2-dev.xml
 #  设置自动转换驼峰命名
 mybatis:
   configuration:
