@@ -2,14 +2,20 @@ package cn.itcast.springbootstudy.redis;
 
 import cn.itcast.springbootstudy.model.Address;
 import cn.itcast.springbootstudy.model.Person;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.*;
+import org.springframework.data.redis.hash.HashMapper;
+import org.springframework.data.redis.hash.Jackson2HashMapper;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 @RunWith(SpringRunner.class)
@@ -64,6 +70,7 @@ public class RedisConfigTest {
     @Test
     public void testHashOperations() throws Exception{
         Person person = new Person("kobe", "bvrant");
+        //hset "hash:player" "firstname" person.getFirstname()
         hashOperations.put("hash:player","firstname",person.getFirstname());
         hashOperations.put("hash:player","lastname",person.getLastname());
         hashOperations.put("hash:player","address",person.getAddress());
@@ -78,5 +85,25 @@ public class RedisConfigTest {
         listOperations.leftPush("list:player",new Person("curry","stephen"));
 
         System.out.println(listOperations.leftPop("list:player"));
+    }
+
+    @Resource(name = "redisTemplate")
+    private HashOperations<String,String,Object> jacksonHashOperations;
+    private HashMapper<Object,String,Object> jackson2HashMapper=new Jackson2HashMapper(false);
+    @Test
+    public void testHashPutAll(){
+        Person person = new Person("kobe", "bvrant");
+        person.setId("10");
+        person.setAddress(new Address("南京","中国"));
+
+        //将对象以hash的形式放入数据库
+        Map<String, Object> mappedHash = jackson2HashMapper.toHash(person);
+        jacksonHashOperations.putAll("player"+person.getId(),mappedHash);
+
+        //将对象从数据库取出来
+        Map<String, Object> loadedHash = jacksonHashOperations.entries("player" + person.getId());
+        Object map = jackson2HashMapper.fromHash(loadedHash);
+        Person getback = new ObjectMapper().convertValue(map, Person.class);
+        Assert.assertEquals(person.getFirstname(),getback.getFirstname());
     }
 }
