@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -16,8 +17,9 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 //@JsonPropertyOrder(value = {"content","title"})
-public class ArticleVO {
+public class ArticleVO implements Serializable {
 
+    private static final long serialVersionUID = -4495466809361347031L;
     /**
      * id : 1
      * author : zimug

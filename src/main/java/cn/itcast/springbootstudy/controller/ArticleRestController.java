@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -55,6 +56,7 @@ public class ArticleRestController {
         return AjaxResponse.success();
     }
 
+    @Cacheable(value = "article")
     //@RequestMapping(value = "/article/{id}",method = GET,produces = "application/json")
     @GetMapping("/article/{id}")
     public @ResponseBody AjaxResponse getArticle(@PathVariable Long id){
