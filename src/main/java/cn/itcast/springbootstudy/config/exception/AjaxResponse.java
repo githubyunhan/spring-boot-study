@@ -2,12 +2,9 @@ package cn.itcast.springbootstudy.config.exception;
 
 import lombok.Data;
 
-import java.io.Serializable;
-
 @Data
-public class AjaxResponse implements Serializable {
+public class AjaxResponse {
 
-    private static final long serialVersionUID = -732883729401456563L;
     private boolean isok;
     private int code;
     private String message;

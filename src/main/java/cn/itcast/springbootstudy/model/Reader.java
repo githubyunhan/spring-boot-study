@@ -2,11 +2,8 @@ package cn.itcast.springbootstudy.model;
 
 import lombok.Data;
 
-import java.io.Serializable;
-
 @Data
-public class Reader implements Serializable {
-    private static final long serialVersionUID = 6531119231312452181L;
+public class Reader {
 
     private String name;
     private int age;
