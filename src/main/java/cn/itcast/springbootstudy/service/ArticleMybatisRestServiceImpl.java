@@ -6,6 +6,9 @@ import cn.itcast.springbootstudy.model.ArticleVO;
 import cn.itcast.springbootstudy.utils.DozerUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.dozer.Mapper;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,27 +28,38 @@ public class ArticleMybatisRestServiceImpl implements ArticleRestService{
 
     @Override
     @Transactional
+    @CachePut(value = "article",key = "#article.getId()")
     public ArticleVO saveArticle(ArticleVO article) {
         Article articlePO = dozerMapper.map(article,Article.class);
         articleMapper.insert(articlePO);
 
+        //TODO 把reader存到数据库里(redis 返回值数据类型要和数据库的保持一致)
+        article.setId(articlePO.getId());
         //int i=5/0;
-        return null;
+        return article;
     }
 
     @Override
+    @CacheEvict(value = "article",key = "#id")
     public void deleteArticle(Long id) {
         articleMapper.deleteByPrimaryKey(id);
     }
 
     @Override
-    public void updateArticle(ArticleVO article) {
+    @CachePut(value = "article",key = "#article.getId()")
+    public ArticleVO updateArticle(ArticleVO article) {
         Article articlePO = dozerMapper.map(article,Article.class);
         articleMapper.updateByPrimaryKeySelective(articlePO);
+
+        //TODO 把reader存到数据库里(redis 返回值数据类型要和数据库的保持一致)
+        article.setId(articlePO.getId());
+        return article;
     }
 
     @Override
+    @Cacheable(value = "article",key = "#id",condition = "#id>3")
     public ArticleVO getArticle(Long id) {
+        //TODO 把读者信息查询出来赋值给ArticleVO(redis 返回值数据类型要和数据库的保持一致)
         return dozerMapper.map(articleMapper.selectByPrimaryKey(id),ArticleVO.class);
     }
 
