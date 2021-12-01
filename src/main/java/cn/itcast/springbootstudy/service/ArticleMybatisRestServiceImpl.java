@@ -9,6 +9,7 @@ import org.dozer.Mapper;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,7 +29,18 @@ public class ArticleMybatisRestServiceImpl implements ArticleRestService{
 
     @Override
     @Transactional
-    @CachePut(value = "article",key = "#article.getId()")
+    @Caching(
+            evict = {
+                    @CacheEvict(value = "article",key = "#article.getId()"),
+                    @CacheEvict(value = "articleAll",allEntries = true)
+            }
+    )
+    /*@Caching(
+            evict = {
+                    @CacheEvict(value = "articleAll",allEntries = true)
+            },
+            put={@CachePut(value = "article",key = "#article.getId()")}
+    )*/
     public ArticleVO saveArticle(ArticleVO article) {
         Article articlePO = dozerMapper.map(article,Article.class);
         articleMapper.insert(articlePO);
@@ -40,13 +52,23 @@ public class ArticleMybatisRestServiceImpl implements ArticleRestService{
     }
 
     @Override
-    @CacheEvict(value = "article",key = "#id")
+    @Caching(
+            evict = {
+                    @CacheEvict(value = "article",key = "#id"),
+                    @CacheEvict(value = "articleAll",allEntries = true)
+            }
+    )
     public void deleteArticle(Long id) {
         articleMapper.deleteByPrimaryKey(id);
     }
 
     @Override
-    @CachePut(value = "article",key = "#article.getId()")
+    @Caching(
+            evict = {
+                    @CacheEvict(value = "article",key = "#article.getId()"),
+                    @CacheEvict(value = "articleAll",allEntries = true)
+            }
+    )
     public ArticleVO updateArticle(ArticleVO article) {
         Article articlePO = dozerMapper.map(article,Article.class);
         articleMapper.updateByPrimaryKeySelective(articlePO);
@@ -64,6 +86,7 @@ public class ArticleMybatisRestServiceImpl implements ArticleRestService{
     }
 
     @Override
+    @Cacheable(value = "articleAll")
     public List<ArticleVO> getAll() {
         List<Article> articles = articleMapper.selectByExample(null);
         return DozerUtils.mapList(articles,ArticleVO.class);
