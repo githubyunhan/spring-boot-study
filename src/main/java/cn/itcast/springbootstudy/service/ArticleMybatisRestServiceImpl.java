@@ -79,7 +79,7 @@ public class ArticleMybatisRestServiceImpl implements ArticleRestService{
     }
 
     @Override
-    @Cacheable(value = "article",key = "#id",condition = "#id>3")
+    @Cacheable(value = "article",key = "#id",condition = "#id>0")
     public ArticleVO getArticle(Long id) {
         //TODO 把读者信息查询出来赋值给ArticleVO(redis 返回值数据类型要和数据库的保持一致)
         return dozerMapper.map(articleMapper.selectByPrimaryKey(id),ArticleVO.class);
